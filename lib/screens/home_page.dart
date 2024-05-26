@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../blocs/bookmarks_bloc.dart';
 import '../blocs/movie_bloc.dart';
@@ -115,7 +115,7 @@ class HomePage extends StatelessWidget {
                                         }
                                       },
                                       child: SvgPicture.asset(
-                                        'assets/3.svg', // Replace 'your_icon.svg' with the path to your SVG icon
+                                        'assets/3.svg', // Замість 'your_icon.svg' вкажіть шлях до вашого SVG
                                         color: isBookmarked ? Colors.yellow : Colors.white,
                                         width: 24.0,
                                         height: 24.0,
@@ -214,10 +214,39 @@ class HomePage extends StatelessWidget {
                                       ),
                                       Text(
                                         'Genre: ${movie.genres.join(', ')}\n${movie.overview}',
-                                        style: TextStyle(fontSize: 13, color: Color(0xFF888888)),
+                                        style: TextStyle(fontSize: 13, color: Colors.white),
+                                        maxLines: 8,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ],
                                   ),
+                                ),
+                                Column(
+                                  children: [
+                                    BlocBuilder<BookmarksBloc, BookmarksState>(
+                                      builder: (context, state) {
+                                        bool isBookmarked = false;
+                                        if (state is BookmarksLoaded) {
+                                          isBookmarked = state.bookmarks.contains(movie);
+                                        }
+                                        return GestureDetector(
+                                          onTap: () {
+                                            if (isBookmarked) {
+                                              BlocProvider.of<BookmarksBloc>(context).add(RemoveBookmark(movie));
+                                            } else {
+                                              BlocProvider.of<BookmarksBloc>(context).add(AddBookmark(movie));
+                                            }
+                                          },
+                                          child: SvgPicture.asset(
+                                            'assets/3.svg', // Замість 'your_icon.svg' вкажіть шлях до вашого SVG
+                                            color: isBookmarked ? Colors.yellow : Colors.white,
+                                            width: 24.0,
+                                            height: 24.0,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -229,10 +258,9 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             );
-          } else if (state is MovieError) {
-            return Center(child: Text(state.message, style: TextStyle(color: Colors.white)));
+          } else {
+            return Center(child: Text('Failed to load movies'));
           }
-          return Container();
         },
       ),
     );

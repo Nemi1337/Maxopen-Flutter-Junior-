@@ -1,6 +1,4 @@
-
 part of 'bookmarks_bloc.dart';
-
 
 abstract class BookmarksEvent extends Equatable {
   const BookmarksEvent();
@@ -12,7 +10,7 @@ abstract class BookmarksEvent extends Equatable {
 class AddBookmark extends BookmarksEvent {
   final Movie movie;
 
-  AddBookmark(this.movie);
+  const AddBookmark(this.movie);
 
   @override
   List<Object> get props => [movie];
@@ -21,7 +19,7 @@ class AddBookmark extends BookmarksEvent {
 class RemoveBookmark extends BookmarksEvent {
   final Movie movie;
 
-  RemoveBookmark(this.movie);
+  const RemoveBookmark(this.movie);
 
   @override
   List<Object> get props => [movie];
