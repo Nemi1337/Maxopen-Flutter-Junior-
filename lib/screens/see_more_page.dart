@@ -93,18 +93,36 @@ class SeeMorePage extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              '${movie.rating.toStringAsFixed(1)}',
-                              style: TextStyle(color: Colors.white),
+                              '${movie.rating.clamp(0, 5).toStringAsFixed(1)}',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
                             ),
-                            SizedBox(width: 5),
                             Row(
                               children: List.generate(
                                 5,
-                                    (index) => Icon(
-                                  Icons.star,
-                                  color: index < (movie.rating * 2).round() ? Colors.yellow : Colors.grey,
-                                  size: 18,
-                                ),
+                                    (index) {
+                                  if (index + 1 <= movie.rating.clamp(0, 5).toInt()) {
+                                    // Якщо індекс плюс 1 не більше, ніж ціла частина рейтингу, зарисовуємо жовту зірочку
+                                    return Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                      size: 22,
+                                    );
+                                  } else if (index < movie.rating.clamp(0, 5).toInt()) {
+                                    // Якщо індекс менше цілої частини рейтингу, зарисовуємо наполовину жовту зірочку
+                                    return Icon(
+                                      Icons.star_half,
+                                      color: Colors.yellow,
+                                      size: 22,
+                                    );
+                                  } else {
+                                    // В іншому випадку зарисовуємо сіру зірочку
+                                    return Icon(
+                                      Icons.star,
+                                      color: Colors.grey,
+                                      size: 22,
+                                    );
+                                  }
+                                },
                               ),
                             ),
                           ],

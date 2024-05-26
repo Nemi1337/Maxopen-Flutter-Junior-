@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movie_search_app/blocs/bookmarks_bloc.dart';
 import 'package:movie_search_app/models/movie.dart';
 import '../services/movie_api_service.dart';
@@ -49,10 +50,10 @@ class _SearchPageState extends State<SearchPage> {
           children: [
             GestureDetector(
               onTap: () {
-                if (Navigator.canPop(context)) {
-                  Navigator.pop(context);
+                if (context.canPop()) {
+                  context.pop();
                 } else {
-                  Navigator.pushReplacementNamed(context, '/');
+                  context.go('/');
                 }
               },
               child: SvgPicture.asset(
@@ -184,25 +185,44 @@ class _SearchPageState extends State<SearchPage> {
                                 Row(
                                   children: [
                                     Text(
-                                      '${movie.rating.toStringAsFixed(1)}',
+                                      '${movie.rating.clamp(0, 5).toStringAsFixed(1)}',
                                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
                                     ),
-                                    SizedBox(width: 10),
                                     Row(
                                       children: List.generate(
                                         5,
-                                            (index) => Icon(
-                                          Icons.star,
-                                          color: index < (movie.rating * 2).round() ? Colors.yellow : Colors.grey,
-                                          size: 22,
-                                        ),
+                                            (index) {
+                                          if (index + 1 <= movie.rating.clamp(0, 5).toInt()) {
+                                            // Якщо індекс плюс 1 не більше, ніж ціла частина рейтингу, зарисовуємо жовту зірочку
+                                            return Icon(
+                                              Icons.star,
+                                              color: Colors.yellow,
+                                              size: 22,
+                                            );
+                                          } else if (index < movie.rating.clamp(0, 5).toInt()) {
+                                            // Якщо індекс менше цілої частини рейтингу, зарисовуємо наполовину жовту зірочку
+                                            return Icon(
+                                              Icons.star_half,
+                                              color: Colors.yellow,
+                                              size: 22,
+                                            );
+                                          } else {
+                                            // В іншому випадку зарисовуємо сіру зірочку
+                                            return Icon(
+                                              Icons.star,
+                                              color: Colors.grey,
+                                              size: 22,
+                                            );
+                                          }
+                                        },
                                       ),
                                     ),
+
                                     SizedBox(width: 10),
                                   ],
                                 ),
                                 Text(
-                                  'Genre: ${movie.genres.join(', ')}',
+                                  ' ${movie.genres.map((genre) => genre.toString()).join(', ')}',
                                   style: TextStyle(fontSize: 13, color: Colors.white),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

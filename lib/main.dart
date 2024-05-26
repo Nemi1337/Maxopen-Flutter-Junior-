@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'blocs/bookmarks_bloc.dart';
@@ -10,7 +11,12 @@ import 'screens/movie_details_page.dart';
 import 'services/movie_api_service.dart';
 import 'bottom_nav_bar.dart';
 
+
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.black,));
+
+
   runApp(MyApp());
 }
 
@@ -54,6 +60,12 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.black,
           primarySwatch: Colors.blue,
         ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          scaffoldBackgroundColor: Colors.black,
+          primarySwatch: Colors.blue,
+        ),
+        themeMode: ThemeMode.dark, // Використовує системну тему
       ),
     );
   }

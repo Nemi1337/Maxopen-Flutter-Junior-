@@ -17,3 +17,4 @@ class BookmarksLoaded extends BookmarksState {
   @override
   List<Object> get props => [bookmarks];
 }
+class BookmarksCleared extends BookmarksState {}
