@@ -93,7 +93,9 @@ class BookmarksPage extends StatelessWidget {
                                   children: [
                                     Text(
                                       '${movie.rating.toStringAsFixed(1)}',
-                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                                      style: TextStyle(
+
+                                      ),
                                     ),
                                     SizedBox(width: 10),
                                     Row(

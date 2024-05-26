@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:movie_search_app/screens/see_more_page.dart';
 import '../blocs/bookmarks_bloc.dart';
 import '../blocs/movie_bloc.dart';
 import 'MovieDetailsScreen.dart';
@@ -140,18 +141,40 @@ class HomePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Latest',
-                          style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Text(
+                                'Latest',
+                                style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                '.',
+                                style: TextStyle(color: Colors.yellow, fontSize: 34, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
                         ),
-                        Text(
-                          '.',
-                          style: TextStyle(color: Colors.yellow, fontSize: 34, fontWeight: FontWeight.bold),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SeeMorePage(movies: state.movies.skip(5).toList()),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'SEE MORE',
+                            style: TextStyle(color: Colors.yellow, fontSize: 13.5),
+                          ),
                         ),
                       ],
                     ),
                   ),
+
                   Column(
                     children: latestMovies.map((movie) {
                       return GestureDetector(
@@ -197,7 +220,7 @@ class HomePage extends StatelessWidget {
                                         children: [
                                           Text(
                                             '${movie.rating.toStringAsFixed(1)}', // Display rating as decimal
-                                            style: TextStyle(fontSize: 16, color: Colors.white),
+                                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
                                           ),
                                           Row(
                                             children: List.generate(
