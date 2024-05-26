@@ -213,41 +213,22 @@ class HomePage extends StatelessWidget {
                                         ],
                                       ),
                                       Text(
-                                        'Genre: ${movie.genres.join(', ')}\n${movie.overview}',
+                                        'Genre: ${movie.genres.join(', ')}',
                                         style: TextStyle(fontSize: 13, color: Colors.white),
-                                        maxLines: 8,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      SizedBox(height: 6),
+                                      Text(
+                                        '${movie.overview}',
+                                        style: TextStyle(fontSize: 13, color: Colors.grey),
+                                        maxLines: 6,
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ],
                                   ),
                                 ),
-                                Column(
-                                  children: [
-                                    BlocBuilder<BookmarksBloc, BookmarksState>(
-                                      builder: (context, state) {
-                                        bool isBookmarked = false;
-                                        if (state is BookmarksLoaded) {
-                                          isBookmarked = state.bookmarks.contains(movie);
-                                        }
-                                        return GestureDetector(
-                                          onTap: () {
-                                            if (isBookmarked) {
-                                              BlocProvider.of<BookmarksBloc>(context).add(RemoveBookmark(movie));
-                                            } else {
-                                              BlocProvider.of<BookmarksBloc>(context).add(AddBookmark(movie));
-                                            }
-                                          },
-                                          child: SvgPicture.asset(
-                                            'assets/3.svg', // Замість 'your_icon.svg' вкажіть шлях до вашого SVG
-                                            color: isBookmarked ? Colors.yellow : Colors.white,
-                                            width: 24.0,
-                                            height: 24.0,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
+
                               ],
                             ),
                           ),
