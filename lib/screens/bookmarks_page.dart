@@ -20,7 +20,7 @@ class BookmarksPage extends StatelessWidget {
                   trailing: IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
-                      BlocProvider.of<BookmarksBloc>(context).add(AddBookmark(movie));
+                      BlocProvider.of<BookmarksBloc>(context).add(RemoveBookmark(movie));
                     },
                   ),
                 );
@@ -34,3 +34,4 @@ class BookmarksPage extends StatelessWidget {
     );
   }
 }
+

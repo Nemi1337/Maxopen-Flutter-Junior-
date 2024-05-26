@@ -9,10 +9,15 @@ part 'bookmarks_event.dart';
 part 'bookmarks_state.dart';
 
 class BookmarksBloc extends Bloc<BookmarksEvent, BookmarksState> {
-  BookmarksBloc() : super(BookmarksInitial());
+  BookmarksBloc() : super(BookmarksInitial()){
+    on<AddBookmark>((event, emit) {
+      _bookmarks.add(event.movie);
+    });
+  }
 
   List<Movie> _bookmarks = [];
 
+/*
   @override
   Stream<BookmarksState> mapEventToState(
       BookmarksEvent event,
@@ -25,6 +30,7 @@ class BookmarksBloc extends Bloc<BookmarksEvent, BookmarksState> {
       yield BookmarksLoaded(bookmarks: List.from(_bookmarks));
     }
   }
+*/
 
 
 
@@ -34,3 +40,4 @@ class BookmarksBloc extends Bloc<BookmarksEvent, BookmarksState> {
     super.onTransition(transition);
   }
 }
+

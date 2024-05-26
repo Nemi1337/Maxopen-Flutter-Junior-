@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'blocs/bookmarks_bloc.dart';
 import 'blocs/movie_bloc.dart';
 import 'screens/home_page.dart';
 import 'screens/search_page.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
+     BlocProvider<BookmarksBloc>( create: (context) => BookmarksBloc(),),
         BlocProvider(
           create: (context) => MovieBloc(movieApiService)..add(FetchTopMovies()),
         ),
